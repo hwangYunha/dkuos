@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "queue",
+			"path": "."
+		},
+		{
+			"name": "OS",
+			"path": "../../../OS"
+		}
+	],
+	"settings": {}
+}
