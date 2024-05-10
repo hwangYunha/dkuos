@@ -1,5 +1,7 @@
 #include "queue.h"
 #include "queue_impl.h"
+#include <mutex>
+#include <condition_variable>
 
 
 void Queue::enqueue (int key, int value) {
@@ -43,7 +45,15 @@ bool CoarseQueue::empty () {
 void FineQueue::enqueue (int key, int value) {
     pthread_mutex_lock(&mutex_lock);
     while (size_ >= capacity_) {
-        pthread_cond_wait(&cv_, &mutex_lock);
+        int new_capacity = capacity_ * 2;
+        std::vector<std::pair<int, int>> new_data(new_capacity);
+        for (int i = 0; i < size_; ++i) {
+            new_data[i] = data_[(front_ + i) % capacity_];
+        }
+        data_ = std::move(new_data);
+        capacity_ = new_capacity;
+        front_ = 0;
+        rear_ = size_;
     }
     data_[rear_] = {key, value};
     rear_ = (rear_ + 1) % capacity_;
