@@ -1,7 +1,4 @@
 #include "queue.h"
-#include <vector>
-#include <mutex>
-#include <condition_variable>
 
 #ifndef QUE_IMPI_H
 #define QUE_IMPI_H
@@ -13,11 +10,22 @@
  */
 class Queue : public DefaultQueue {
 	private:
- 	   std::vector<std::pair<int, int>> data_;
- 	   std::mutex mutex_;
+ 	   std::pair<int, int> *data_;
+	   int capacity_;
+	   int front_;
+	   int rear_;
 	   pthread_mutex_t mutex_lock;
 	public:
-		// 멤버 함수 추가 선언 가능
+	    Queue(int capacity) : capacity_(capacity), front_(0), rear_(0) {
+        	data_ = new std::pair<int, int>[capacity];
+        	pthread_mutex_init(&mutex_lock, NULL);
+    	}
+
+	    ~Queue() {
+    	    delete[] data_;
+        	pthread_mutex_destroy(&mutex_lock);
+    	}
+
         void enqueue (int key, int value) override;
         std::pair<int, int> dequeue () override;
 		bool empty() override;
@@ -32,10 +40,24 @@ class Queue : public DefaultQueue {
  */
 class CoarseQueue : public DefaultQueue {
 	private:
-		std::vector<std::pair<int, int>> data_;
-    	std::mutex mutex_;
+		std::pair<int, int> *data_;
+	    int capacity_;
+   		int front_;
+    	int rear_;
+
+		pthread_mutex_t mutex_lock;
+	
 	public:
-		// 멤버 함수 추가 선언 가능
+		CoarseQueue(int capacity) : capacity_(capacity), front_(0), rear_(0) {
+       		data_ = new std::pair<int, int>[capacity];
+        	pthread_mutex_init(&mutex_lock, NULL);
+    	}
+
+    	~CoarseQueue() {
+        	delete[] data_;
+        	pthread_mutex_destroy(&mutex_lock);
+    	}
+
         void enqueue (int key, int value) override;
         std::pair<int, int> dequeue () override;
 		bool empty() override;
@@ -50,32 +72,34 @@ class CoarseQueue : public DefaultQueue {
  */
 class FineQueue : public DefaultQueue {
 	private:
-		std::vector<std::pair<int, int>> data_;
-		pthread_mutex_t mutex_lock;
-		pthread_cond_t cv_;
-   	
-		int capacity_;
+		std::pair<int, int> *data_;
+    	int capacity_;
     	int front_;
     	int rear_;
-    	int size_;
+
+		pthread_mutex_t mutex_lock;
+		pthread_cond_t cv_;
 
 	public:
 		// 멤버 함수 추가 선언 가능
-		FineQueue() : capacity_(100), front_(0), rear_(0), size_(0), data_(100) {
-            pthread_mutex_init(&mutex_lock, NULL);
-			pthread_cond_init(&cv_, NULL);
-        }
-		
-        FineQueue(int capacity) : capacity_(capacity), front_(0), rear_(0), size_(0), data_(capacity) {
-            pthread_mutex_init(&mutex_lock, NULL);
-			pthread_cond_init(&cv_, NULL);
-        }
 
-        // 소멸자
-        ~FineQueue() {
-			pthread_mutex_destroy(&mutex_lock);
-			pthread_cond_destroy(&cv_);	
+		FineQueue() : capacity_(100), front_(0), rear_(0) {
+		    data_ = new std::pair<int, int>[capacity_];
+    		pthread_mutex_init(&mutex_lock, NULL);
+    		pthread_cond_init(&cv_, NULL);
 		}
+
+		FineQueue(int capacity) : capacity_(capacity), front_(0), rear_(0) {
+        	data_ = new std::pair<int, int>[capacity];
+        	pthread_mutex_init(&mutex_lock, NULL);
+       		pthread_cond_init(&cv_, NULL);
+    	}
+
+    	~FineQueue() {
+        	delete[] data_;
+        	pthread_mutex_destroy(&mutex_lock);
+        	pthread_cond_destroy(&cv_);
+   		}
 
 
         void enqueue (int key, int value) override;
