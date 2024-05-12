@@ -72,12 +72,10 @@ std::pair<int, int> FineQueue::dequeue() {
     pthread_mutex_unlock(&mutex_lock);
 
     pthread_mutex_lock(&mutex_lock);
-    else {
-        auto front = data_[front_];
-        front_ = (front_ + 1) % capacity_;
-        pthread_mutex_unlock(&mutex_lock);
-        return front;
-    }
+    auto front = data_[front_];
+    front_ = (front_ + 1) % capacity_;
+    pthread_mutex_unlock(&mutex_lock);
+    return front;
 }
 
 bool FineQueue::empty () {
