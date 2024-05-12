@@ -28,18 +28,16 @@ void CoarseQueue::enqueue (int key, int value) {
 }
 
 std::pair<int, int> CoarseQueue::dequeue () {
-	pthread_mutex_lock(&mutex_lock);
 	if (front_ == rear_) {
-        pthread_mutex_unlock(&mutex_lock);
 		return {-1, -1};
     }
     
-    else {
-        auto front = data_[front_];
-        front_ = (front_ + 1) % capacity_;
-        pthread_mutex_unlock(&mutex_lock);
-        return front;
-    }
+    pthread_mutex_lock(&mutex_lock);
+    auto front = data_[front_];
+    front_ = (front_ + 1) % capacity_;
+    pthread_mutex_unlock(&mutex_lock);
+    return front;
+    
 }
 
 bool CoarseQueue::empty () {
@@ -63,15 +61,12 @@ void FineQueue::enqueue(int key, int value) {
 
 std::pair<int, int> FineQueue::dequeue() {
 
-
 	pthread_mutex_lock(&mutex_lock);
 	if (front_ == rear_) {
         pthread_mutex_unlock(&mutex_lock);
 		return {-1, -1};
     }
-    pthread_mutex_unlock(&mutex_lock);
-
-    pthread_mutex_lock(&mutex_lock);
+    
     auto front = data_[front_];
     front_ = (front_ + 1) % capacity_;
     pthread_mutex_unlock(&mutex_lock);
