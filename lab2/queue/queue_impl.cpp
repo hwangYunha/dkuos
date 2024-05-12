@@ -57,7 +57,6 @@ void FineQueue::enqueue(int key, int value) {
     rear_ = (rear_ + 1) % capacity_;
     ++size_;
     pthread_mutex_unlock(&mutex_lock);
-
 }
 
 std::pair<int, int> FineQueue::dequeue() {
