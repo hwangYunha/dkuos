@@ -81,5 +81,8 @@ std::pair<int, int> FineQueue::dequeue() {
 }
 
 bool FineQueue::empty () {
-    return (size_ == 0);
+    pthread_mutex_lock(&mutex_lock);
+    bool is_empty = size_ == 0;
+    pthread_mutex_unlock(&mutex_lock);
+    return is_empty;
 }
