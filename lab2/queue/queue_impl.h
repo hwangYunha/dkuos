@@ -16,7 +16,7 @@ class Queue : public DefaultQueue {
 	   int rear_;
 	public:
 	    Queue() : capacity_(1000000), front_(0), rear_(0) {
-        	data_ = new std::pair<int, int>[capacity];
+        	data_ = new std::pair<int, int>[capacity_];
     	}
 
 	    ~Queue() {
@@ -77,7 +77,7 @@ class FineQueue : public DefaultQueue {
 		pthread_mutex_t mutex_lock;
 		pthread_cond_t cv_;
 		pthread_cond_t en_cv_;
-		pthread_cont_t de_cv_;
+		pthread_cond_t de_cv_;
 
 	public:
 		// 멤버 함수 추가 선언 가능
