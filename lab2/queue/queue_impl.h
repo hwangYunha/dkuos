@@ -75,9 +75,7 @@ class FineQueue : public DefaultQueue {
     	int front_;
     	int rear_;
 
-		pthread_mutex_t enqueue_mutex;
-		pthread_mutex_t dequeue_mutex;
-		pthread_mutex_t empty_mutex;
+		pthread_mutex_t mutex_lock;
 
 
 	public:
@@ -85,16 +83,12 @@ class FineQueue : public DefaultQueue {
 
 		FineQueue() : capacity_(10000000), front_(0), rear_(0) {
 		    data_ = new std::pair<int, int>[capacity_];
-    		pthread_mutex_init(&enqueue_mutex, NULL);
-			pthread_mutex_init(&dequeue_mutex, NULL);
-			pthread_mutex_init(&empty_mutex, NULL);
+    		pthread_mutex_init(&mutex_lock, NULL);
 		}
 
     	~FineQueue() {
         	delete[] data_;
-    		pthread_mutex_destroy(&enqueue_mutex);
-    		pthread_mutex_destroy(&dequeue_mutex);
-			pthread_mutex_destroy(&empty_mutex);
+    		pthread_mutex_destroy(&mutex_lock);
    		}
 
 
