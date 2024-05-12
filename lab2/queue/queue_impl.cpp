@@ -49,7 +49,7 @@ bool CoarseQueue::empty () {
 void FineQueue::enqueue(int key, int value) {
     pthread_mutex_lock(&mutex_lock);
 
-    while (size_ == capacity_) {
+    while (size_ >= capacity_) {
         pthread_cond_wait(&cv_full_, &mutex_lock);
     }
     
