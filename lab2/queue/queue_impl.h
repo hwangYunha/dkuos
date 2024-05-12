@@ -14,6 +14,7 @@ class Queue : public DefaultQueue {
 	   int capacity_;
 	   int front_;
 	   int rear_;
+
 	public:
 	    Queue() : capacity_(1000000), front_(0), rear_(0) {
         	data_ = new std::pair<int, int>[capacity_];
@@ -85,13 +86,15 @@ class FineQueue : public DefaultQueue {
 		FineQueue() : capacity_(1000000), front_(0), rear_(0) {
 		    data_ = new std::pair<int, int>[capacity_];
     		pthread_mutex_init(&mutex_lock, NULL);
-    		pthread_cond_init(&cv_, NULL);
+    		pthread_cond_init(&en_cv_, NULL);
+			pthread_cond_init(&de_cv_, NULL);
 		}
 
     	~FineQueue() {
         	delete[] data_;
         	pthread_mutex_destroy(&mutex_lock);
-        	pthread_cond_destroy(&cv_);
+    		pthread_mutex_destroy(&en_cv_, NULL);
+			pthread_mutex_destroy(&de_cv_, NULL);
    		}
 
         void enqueue (int key, int value) override;
