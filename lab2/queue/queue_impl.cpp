@@ -54,10 +54,11 @@ void FineQueue::enqueue(int key, int value) {
     if ((rear_ + 1) % capacity_ != front_) {
         pthread_mutex_unlock(&mutex_lock);
         // rear_에 락을 걸고, data_에 값 넣기
-        pthread_mutex_lock(&mutex_lock[rear_]);
-        data_[rear_] = {key, value};
-        rear_ = (rear_ + 1) % capacity_;
-        pthread_mutex_unlock(&mutex_lock[rear_]);
+        int index = (rear_ + 1) % capacity_;
+        pthread_mutex_lock(&mutex_locks[index]);
+        data_[index] = {key, value};
+        rear_ = index;
+        pthread_mutex_unlock(&mutex_locks[index]);
     } else {
         pthread_mutex_unlock(&mutex_lock);
         // 큐가 가득 찼으므로 예외 처리
