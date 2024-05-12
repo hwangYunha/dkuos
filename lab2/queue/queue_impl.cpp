@@ -48,8 +48,9 @@ bool CoarseQueue::empty () {
 }
 
 void FineQueue::enqueue(int key, int value) {
+    std::pair<int, int> newItem = {key, value}
 	pthread_mutex_lock(&mutex_lock);
-    data_[rear_] = {key, value};
+    data_[rear_] = newItem;
     rear_ = (rear_ + 1) % capacity_;
     pthread_mutex_unlock(&mutex_lock);
 }
