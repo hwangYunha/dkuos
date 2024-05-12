@@ -53,8 +53,8 @@ void FineQueue::enqueue(int key, int value) {
     int index = (rear_ + 1) % capacity_;
     pthread_mutex_lock(&element_lock);
     data_[rear_] = {key, value};
-    rear_ = index;
     pthread_mutex_unlock(&element_lock);
+    rear_ = index;
     pthread_mutex_unlock(&mutex_lock);
 }
 
