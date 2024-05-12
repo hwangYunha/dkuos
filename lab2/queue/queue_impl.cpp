@@ -23,7 +23,7 @@ bool Queue::empty () {
 void CoarseQueue::enqueue (int key, int value) {
 	pthread_mutex_lock(&mutex_lock);
     data_[rear_] = {key, value};
-    rear_ = (rear_ + 1) & capacity_;
+    rear_ = (rear_ + 1) % capacity_;
     pthread_mutex_unlock(&mutex_lock);
 }
 
