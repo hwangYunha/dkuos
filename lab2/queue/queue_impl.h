@@ -42,6 +42,7 @@ class CoarseQueue : public DefaultQueue {
 	    int capacity_;
    		int front_;
     	int rear_;
+		int size_;
 
 		pthread_mutex_t mutex_lock;
 	
