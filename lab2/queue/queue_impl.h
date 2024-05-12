@@ -94,7 +94,7 @@ class FineQueue : public DefaultQueue {
     	~FineQueue() {
         	delete[] data_;
         	pthread_mutex_destroy(&mutex_lock);
-    		pthread_cond_destroy(&ecv_not_full_n_cv_);
+    		pthread_cond_destroy(&cv_not_full_);
 			pthread_cond_destroy(&cv_not_empty_);
    		}
 
