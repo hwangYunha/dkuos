@@ -41,7 +41,7 @@ std::pair<int, int> CoarseQueue::dequeue () {
 
 bool CoarseQueue::empty () {
     pthread_mutex_lock(&mutex_lock);
-    bool isEmpty = data_.empty();
+    bool isEmpty = (front_ == rear_);
     pthread_mutex_unlock(&mutex_lock);
     return isEmpty;
 }
