@@ -23,8 +23,8 @@ TEST_P(QueueSingleThreadTest, Fine) {
 INSTANTIATE_TEST_CASE_P(Default, QueueSingleThreadTest,
   ::testing::Values(
     // Workload Type, Request Num, Num of Threads
-    std::make_tuple(ENQ_THEN_DEQ, 50000, 1),
-    std::make_tuple(ENQUEUE_DEQUEUE, 100000, 1)
+    std::make_tuple(ENQ_THEN_DEQ, 500000, 1),
+    std::make_tuple(ENQUEUE_DEQUEUE, 1000000, 1)
   )
 );
 
@@ -42,12 +42,12 @@ TEST_P(QueueMultiThreadTest, Fine) {
 INSTANTIATE_TEST_CASE_P(Default, QueueMultiThreadTest,
   ::testing::Values(
     // Workload Type, Request Num, Num of Threads
-    std::make_tuple(ENQ_THEN_DEQ, 50000, 2),
-    std::make_tuple(ENQ_THEN_DEQ, 50000, 4),
-    std::make_tuple(ENQ_THEN_DEQ, 50000, 8),
-    std::make_tuple(ENQUEUE_DEQUEUE, 100000, 2),
-    std::make_tuple(ENQUEUE_DEQUEUE, 100000, 4),
-    std::make_tuple(ENQUEUE_DEQUEUE, 100000, 8)
+    std::make_tuple(ENQ_THEN_DEQ, 500000, 2),
+    std::make_tuple(ENQ_THEN_DEQ, 500000, 4),
+    std::make_tuple(ENQ_THEN_DEQ, 500000, 8),
+    std::make_tuple(ENQUEUE_DEQUEUE, 1000000, 2),
+    std::make_tuple(ENQUEUE_DEQUEUE, 1000000, 4),
+    std::make_tuple(ENQUEUE_DEQUEUE, 1000000, 8)
   )
 );
 
