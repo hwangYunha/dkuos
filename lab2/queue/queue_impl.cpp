@@ -50,6 +50,9 @@ bool CoarseQueue::empty () {
 void FineQueue::enqueue(int key, int value) {
 	pthread_mutex_lock(&mutex_lock);
     data_[rear_] = {key, value};
+    pthread_mutex_unlock(&mutex_lock);
+    
+    pthread_mutex_lock(&mutex_lock);
     rear_ = (rear_ + 1) % capacity_;
     pthread_mutex_unlock(&mutex_lock);
 
