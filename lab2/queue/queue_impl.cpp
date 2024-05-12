@@ -47,18 +47,18 @@ bool CoarseQueue::empty () {
 }
 
 void FineQueue::enqueue(int key, int value) {
-    bool notify = (size_ == 0);
     pthread_mutex_lock(&mutex_lock);
     while (size_ == capacity_) {
-        if(notify) pthread_cond_signal(&cv_empty_);
         pthread_cond_wait(&cv_empty_, &mutex_lock);
     }
     
     data_[rear_] = {key, value};
     rear_ = (rear_ + 1) % capacity_;
-    if(notify) pthread_cond_signal(&cv_empty_);
     size_++;
-    
+
+    if(size_ == 1) {
+        pthread_cond_broadcast(&cv_empty_);
+    }
     pthread_mutex_unlock(&mutex_lock);
 }
 
@@ -71,8 +71,11 @@ std::pair<int, int> FineQueue::dequeue() {
     std::pair<int, int> item = std::move(data_[front_]);
     front_ = (front_ + 1) % capacity_;
     size_--;
-    
-    pthread_cond_signal(&cv_empty_);
+
+    if(size_ == capacity_ - 1) {
+        pthread_cond_broadcast(&cv_empty_);
+    }
+
     pthread_mutex_unlock(&mutex_lock);
     return item;
 }
