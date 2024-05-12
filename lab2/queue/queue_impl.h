@@ -94,8 +94,8 @@ class FineQueue : public DefaultQueue {
     	~FineQueue() {
         	delete[] data_;
         	pthread_mutex_destroy(&mutex_lock);
-    		pthread_cond_destroy(&en_cv_, NULL);
-			pthread_cond_destroy(&de_cv_, NULL);
+    		pthread_cond_destroy(&en_cv_);
+			pthread_cond_destroy(&de_cv_);
    		}
 
         void enqueue (int key, int value) override;
