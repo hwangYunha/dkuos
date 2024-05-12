@@ -64,6 +64,11 @@ std::pair<int, int> FineQueue::dequeue() {
         pthread_cond_wait(&cv_not_empty_, &mutex_lock);
     }
 
+    if (size_ <= 0) {
+        pthread_mutex_unlock(&mutex_lock);
+        return {};
+    }
+
     auto item = data_[front_];
     front_ = (front_ + 1) % capacity_;
     --size_;
