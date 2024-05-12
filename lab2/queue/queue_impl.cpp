@@ -58,7 +58,7 @@ void FineQueue::enqueue(int key, int value) {
         pthread_mutex_lock(&mutex_locks[index]);
         data_[index] = {key, value};
         rear_ = index;
-        pthread_mutex_unlock(&mutex_locks[index]);
+        pthread_mutex_unlock(&mutex_lock[index]);
     } else {
         pthread_mutex_unlock(&mutex_lock);
         // 큐가 가득 찼으므로 예외 처리
