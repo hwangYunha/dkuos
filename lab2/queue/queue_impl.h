@@ -90,8 +90,8 @@ class FineQueue : public DefaultQueue {
 
     	~FineQueue() {
         	delete[] data_;
-    		pthread_cond_destroy(&front_mutex_);
-			pthread_cond_destroy(&rear_mutex_);
+    		pthread_mutex_destroy(&front_mutex_);
+    		pthread_mutex_destroy(&rear_mutex_);
    		}
 
 
