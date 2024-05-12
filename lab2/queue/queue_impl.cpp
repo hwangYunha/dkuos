@@ -46,9 +46,9 @@ bool CoarseQueue::empty () {
     return isEmpty;
 }
 
-void FineQueue::enqueue (int key, int value) {
+void FineQueue::enqueue(int key, int value) {
     pthread_mutex_lock(&mutex_lock);
-    if (size_ >= capacity_) {
+    while (size_ >= capacity_) {
         pthread_cond_wait(&de_cv_, &mutex_lock);
     }
     data_[rear_] = {key, value};
@@ -58,17 +58,17 @@ void FineQueue::enqueue (int key, int value) {
     pthread_mutex_unlock(&mutex_lock);
 }
 
-std::pair<int, int> FineQueue::dequeue () {
-	pthread_mutex_lock(&mutex_lock);
-    	while (size_ <= 0) {
-			pthread_cond_wait(&en_cv_, &mutex_lock);
-    	}
-    	auto item = data_[front_];
-    	front_ = (front_ + 1) % capacity_;
-    	--size_;
-    	pthread_cond_signal(&de_cv_);
-        pthread_mutex_unlock(&mutex_lock);
-    	return item;
+std::pair<int, int> FineQueue::dequeue() {
+    pthread_mutex_lock(&mutex_lock);
+    while (size_ <= 0) {
+        pthread_cond_wait(&en_cv_, &mutex_lock);
+    }
+    auto item = data_[front_];
+    front_ = (front_ + 1) % capacity_;
+    --size_;
+    pthread_cond_signal(&de_cv_);
+    pthread_mutex_unlock(&mutex_lock);
+    return item;
 }
 
 bool FineQueue::empty () {
