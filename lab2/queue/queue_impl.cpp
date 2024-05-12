@@ -46,7 +46,7 @@ bool CoarseQueue::empty () {
     return isEmpty;
 }
 
-void FineQueue::enqueue(int key, int vaㄷlue) {
+void FineQueue::enqueue(int key, int value) {
     pthread_mutex_lock(&mutex_lock);
     while (size_ >= capacity_) {
         pthread_cond_wait(&cv_not_full_, &mutex_lock);
