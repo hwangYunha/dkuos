@@ -57,7 +57,7 @@ void FineQueue::enqueue(int key, int value) {
     rear_ = (rear_ + 1) % capacity_;
     size_++;
 
-    pthread_cond_singal(&cv_empty_);
+    pthread_cond_signal(&cv_empty_);
     pthread_mutex_unlock(&mutex_lock);
 }
 
@@ -71,7 +71,7 @@ std::pair<int, int> FineQueue::dequeue() {
     front_ = (front_ + 1) % capacity_;
     size_--;
 
-    pthread_cond_singal(&cv_full_);
+    pthread_cond_signal(&cv_full_);
     pthread_mutex_unlock(&mutex_lock);
     return front;
 }
