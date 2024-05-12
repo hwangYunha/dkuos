@@ -32,7 +32,7 @@ std::pair<int, int> CoarseQueue::dequeue () {
     std::pair<int, int> result = {-1, -1};
 
     if (front_ != rear_) {
-        result = data_.[front_];
+        result = data_[front_];
         front_ = (front_ + 1) % capacity_;
     }
     pthread_mutex_unlock(&mutex_lock);
