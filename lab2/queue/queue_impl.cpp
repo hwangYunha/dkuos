@@ -69,7 +69,6 @@ std::pair<int, int> FineQueue::dequeue() {
     --size_;
     pthread_cond_signal(&cv_not_full_);
     pthread_mutex_unlock(&mutex_lock);
-    pthread_cond_signal(&cv_not_full_);ㅌㄴ
     return item;
 }
 
