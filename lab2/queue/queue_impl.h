@@ -42,7 +42,6 @@ class CoarseQueue : public DefaultQueue {
 	    int capacity_;
    		int front_;
     	int rear_;
-		int size_;
 
 		pthread_mutex_t mutex_lock;
 	
@@ -75,6 +74,7 @@ class FineQueue : public DefaultQueue {
     	int capacity_;
     	int front_;
     	int rear_;
+		int size_;
 
 		pthread_mutex_t mutex_lock;
 		pthread_cond_t cv_;
