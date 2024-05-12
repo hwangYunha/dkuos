@@ -50,20 +50,14 @@ bool CoarseQueue::empty () {
 
 void FineQueue::enqueue(int key, int value) {
     pthread_mutex_lock(&mutex_lock);
-    // 큐가 가득 찼는지 확인
-    if ((rear_ + 1) % capacity_ != front_) {
-        pthread_mutex_unlock(&mutex_lock);
-        // rear_에 락을 걸고, data_에 값 넣기
-        int index = (rear_ + 1) % capacity_;
-        pthread_mutex_lock(&mutex_locks[index]);
-        data_[index] = {key, value};
-        rear_ = index;
-        pthread_mutex_unlock(&mutex_lock[index]);
-    } else {
-        pthread_mutex_unlock(&mutex_lock);
-        // 큐가 가득 찼으므로 예외 처리
-        throw std::runtime_error("Queue is full");
-    }
+    // rear_에 락을 걸고, data_에 값 넣기
+    int index = (rear_ + 1) % capacity_;
+    pthread_mutex_t *element_lock = &mutex_locks[index];
+    pthread_mutex_lock(element_lock);
+    data_[index] = {key, value};
+    rear_ = index;
+    pthread_mutex_unlock(element_lock);
+    pthread_mutex_unlock(&mutex_lock);
 }
 
 std::pair<int, int> FineQueue::dequeue() {
