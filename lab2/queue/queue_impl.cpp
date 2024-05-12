@@ -29,11 +29,11 @@ void CoarseQueue::enqueue (int key, int value) {
 
 std::pair<int, int> CoarseQueue::dequeue () {
     pthread_mutex_lock(&mutex_lock);
+    auto front = data_[front_];
     if (front_ == rear_) {
-        std::pair<int, int> front = {-1, -1};
+        front = {-1, -1};
     }
     else {
-    auto front = data_[front_];
     front_ = (front_ + 1) % capacity_;
     }
     pthread_mutex_unlock(&mutex_lock);
