@@ -47,7 +47,7 @@ class CoarseQueue : public DefaultQueue {
 	
 	public:
 		CoarseQueue() : capacity_(1000000), front_(0), rear_(0) {
-       		data_ = new std::pair<int, int>[capacity];
+       		data_ = new std::pair<int, int>[capacity_];
         	pthread_mutex_init(&mutex_lock, NULL);
     	}
 
