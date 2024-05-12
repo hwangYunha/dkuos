@@ -56,13 +56,12 @@ void FineQueue::enqueue(int key, int value) {
 }
 
 std::pair<int, int> FineQueue::dequeue() {
+    std::pair<int, int> front = {-1, -1};
     pthread_mutex_lock(&mutex_lock);
-    if (front_ == rear_) {
-        pthread_mutex_unlock(&mutex_lock);
-        return {-1, -1};
+    if (front_ != rear_) {
+        front = data_[front_];
+        front_ = (front_ + 1) % capacity_;
     }
-    auto front = data_[front_];
-    front_ = (front_ + 1) % capacity_;
     pthread_mutex_unlock(&mutex_lock);
     return front;
 }
