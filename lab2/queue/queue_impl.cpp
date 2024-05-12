@@ -50,10 +50,8 @@ bool CoarseQueue::empty () {
 
 void FineQueue::enqueue(int key, int value) {
     pthread_mutex_lock(&mutex_lock);
-    // rear_에 락을 걸고, data_에 값 넣기
     int index = (rear_ + 1) % capacity_;
-    pthread_mutex_t *element_lock = &mutex_lock[index];
-    pthread_mutex_lock(element_lock);
+    pthread_mutex_lock(&element_lock);
     data_[index] = {key, value};
     rear_ = index;
     pthread_mutex_unlock(element_lock);
