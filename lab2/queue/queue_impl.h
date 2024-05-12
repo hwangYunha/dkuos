@@ -78,8 +78,8 @@ class FineQueue : public DefaultQueue {
 
 		pthread_mutex_t mutex_lock;
 		pthread_cond_t cv_;
-		pthread_cond_t en_cv_;
-		pthread_cond_t de_cv_;
+		pthread_cond_t cv_not_full_;
+		pthread_cond_t cv_not_empty_;
 
 	public:
 		// 멤버 함수 추가 선언 가능
