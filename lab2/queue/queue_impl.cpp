@@ -3,15 +3,16 @@
 
 
 void Queue::enqueue (int key, int value) {
-    data_.push_back({key, value});
+    data_[rear_] = {key, value};
+    rear_ = (rear_ + 1) % capacity_;
 }
 
 std::pair<int, int> Queue::dequeue () {
-    if (data_.empty()) {
+    if (front_ == rear_) {
         return {-1, -1};
     }
-    auto front = data_.front();
-    data_.erase(data_.begin());
+    auto front = data_[front_];
+    front_ = (front_ + 1) % capacity_;
     return front;
 }
 
