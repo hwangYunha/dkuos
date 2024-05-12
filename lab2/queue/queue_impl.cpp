@@ -71,7 +71,7 @@ std::pair<int, int> FineQueue::dequeue() {
     if(size_ > 0) {
         item = data_[front_];
         front_ = (front_ + 1) % capacity_;
-        --size;
+        --size_;
         pthread_cond_signal(&cv_not_full_);
     }
     pthread_mutex_unlock(&mutex_lock);
