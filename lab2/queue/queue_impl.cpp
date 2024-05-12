@@ -69,5 +69,5 @@ std::pair<int, int> FineQueue::dequeue() {
 }
     
 bool FineQueue::empty () {
-    return front_ == rear_
+    return (front_ == rear_);
 }
