@@ -84,7 +84,7 @@ class FineQueue : public DefaultQueue {
 	public:
 		// 멤버 함수 추가 선언 가능
 
-		FineQueue() : capacity_(1000000), front_(0), rear_(0) {
+		FineQueue() : capacity_(10000000), front_(0), rear_(0) {
 		    data_ = new std::pair<int, int>[capacity_];
     		pthread_mutex_init(&mutex_lock, NULL);
     		pthread_cond_init(&cv_not_full_, NULL);
