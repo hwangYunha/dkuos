@@ -64,13 +64,10 @@ std::pair<int, int> FineQueue::dequeue() {
         front_ = (front_ + 1) % capacity_;
     }
     pthread_mutex_unlock(&mutex_lock);
-    
+
     return result;
 }
     
 bool FineQueue::empty () {
-    pthread_mutex_lock(&mutex_lock);
-    bool isEmpty = (front_ == rear_);
-    pthread_mutex_unlock(&mutex_lock);
-    return isEmpty;
+    return front_ == rear_
 }
