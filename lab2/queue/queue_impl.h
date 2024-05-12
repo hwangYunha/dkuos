@@ -74,28 +74,24 @@ class FineQueue : public DefaultQueue {
     	int capacity_;
     	int front_;
     	int rear_;
-		int size_;
 
-		pthread_mutex_t mutex_lock;
-		pthread_cond_t cv_;
-		pthread_cond_t cv_full_;
-		pthread_cond_t cv_empty_;
+		pthread_mutex_t front_mutex_;
+		pthread_mutex_t rear_mutex_;
+
 
 	public:
 		// 멤버 함수 추가 선언 가능
 
 		FineQueue() : capacity_(10000000), front_(0), rear_(0) {
 		    data_ = new std::pair<int, int>[capacity_];
-    		pthread_mutex_init(&mutex_lock, NULL);
-//    		pthread_cond_init(&cv_full_, NULL);
-//			pthread_cond_init(&cv_empty_, NULL);
+    		pthread_mutex_init(&front_mutex_, NULL);
+			pthread_mutex_init(&rear_mutex_, NULL);
 		}
 
     	~FineQueue() {
         	delete[] data_;
-        	pthread_mutex_destroy(&mutex_lock);
-//    		pthread_cond_destroy(&cv_full_);
-//			pthread_cond_destroy(&cv_empty_);
+    		pthread_cond_destroy(&front_mutex_);
+			pthread_cond_destroy(&rear_mutex_);
    		}
 
         void enqueue (int key, int value) override;
